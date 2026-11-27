@@ -1,20 +1,40 @@
 # Database Column Catalog
 
 This catalog lists column declarations from every `CREATE TABLE` statement
-checked into `schema.sql` and `migrations/*.sql` (55 table definitions at
+checked into `schema.sql` and `migrations/*.sql` (55 definitions at
 generation time). Exact DDL, indexes, policies, and later `ALTER TABLE`
 changes remain authoritative in those SQL files. Refresh this page when
 the SQL schema changes.
 
-> **Current-state warning:** some definitions below are historical. The
-> TripDoc migration on 2026-07-16 dropped the legacy event/copilot/search
-> tables listed in the status notes and changed `trip_states`. HostOS base
-> tables such as `properties` and `reservations` are referenced by the app
-> but are not created by the DDL set covered here.
+> **Current-state warning:** these are source DDL definitions, not a
+> guaranteed dump of any hosted project. The TripDoc migration on
+> 2026-07-16 dropped legacy event/copilot/search tables and changed
+> `trip_states`. HostOS base tables such as `properties` and `reservations`
+> are referenced by the app but are not created by this DDL set.
+
+## Effective TripDoc row after the July 16 migrations
+
+`2026-07-16_trip_docs.sql` adds the columns below. The subsequent
+`2026-07-16_drop_tripstate_tables.sql` removes the legacy columns. The
+effective `trip_states` columns are:
+
+| Column | SQL declaration |
+| --- | --- |
+| `id` | `uuid PRIMARY KEY DEFAULT gen_random_uuid()` |
+| `user_id` | `uuid REFERENCES auth.users(id) ON DELETE CASCADE` |
+| `title` | `text` |
+| `origin` | `text` |
+| `destination` | `text` |
+| `status` | `text NOT NULL DEFAULT 'planning'` |
+| `visibility` | `text NOT NULL DEFAULT 'private'` |
+| `created_at` | `timestamptz NOT NULL DEFAULT timezone('utc', now())` |
+| `updated_at` | `timestamptz NOT NULL DEFAULT timezone('utc', now())` |
+| `doc` | `jsonb` |
+| `progress` | `integer NOT NULL DEFAULT 0` |
 
 ## `profiles`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -42,7 +62,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `trips`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -62,7 +82,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `internal_trip_logs`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -78,7 +98,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `trip_groups`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -92,7 +112,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `group_members`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -105,7 +125,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `group_messages`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -120,7 +140,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `group_expenses`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -137,7 +157,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `trip_bookings`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -160,7 +180,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `trip_documents`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -177,7 +197,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `trip_reels`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -195,7 +215,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `reel_scans`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -213,7 +233,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `reel_jobs`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -236,7 +256,7 @@ Table-level constraints:
 
 ## `saved_reels`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -254,7 +274,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `trip_saved_reels`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -269,7 +289,7 @@ Table-level constraints:
 
 ## `trip_journey`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -306,7 +326,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `saved_folders`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -320,7 +340,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `folder_items`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -336,7 +356,7 @@ Table-level constraints:
 
 ## `user_home_feed`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -348,7 +368,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `trip_states`
 
-Source: [`schema.sql`](../schema.sql). Base definition shown; current TripDoc adds `doc` and `progress`, then drops `state`, `last_seq`, and `schema_version`.
+Source: [`schema.sql`](../schema.sql). Base definition shown; see the effective TripDoc shape above.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -367,7 +387,7 @@ Source: [`schema.sql`](../schema.sql). Base definition shown; current TripDoc ad
 
 ## `trip_state_events`
 
-Source: [`schema.sql`](../schema.sql). Historical ? dropped by `2026-07-16_drop_tripstate_tables.sql`.
+Source: [`schema.sql`](../schema.sql). Historical - dropped by `2026-07-16_drop_tripstate_tables.sql`.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -385,7 +405,7 @@ Table-level constraints:
 
 ## `copilot_messages`
 
-Source: [`schema.sql`](../schema.sql). Historical ? dropped by `2026-07-16_drop_tripstate_tables.sql`.
+Source: [`schema.sql`](../schema.sql). Historical - dropped by `2026-07-16_drop_tripstate_tables.sql`.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -399,7 +419,7 @@ Source: [`schema.sql`](../schema.sql). Historical ? dropped by `2026-07-16_drop_
 
 ## `user_travel_memory`
 
-Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`schema.sql`](../schema.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -409,7 +429,7 @@ Source: [`schema.sql`](../schema.sql). Declared in the listed DDL; verify it exi
 
 ## `hotel_profiles`
 
-Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -427,7 +447,7 @@ Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql)
 
 ## `hotel_embeddings`
 
-Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -439,7 +459,7 @@ Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql)
 
 ## `personality_centroids`
 
-Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -450,7 +470,7 @@ Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql)
 
 ## `traveller_profiles`
 
-Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -461,7 +481,7 @@ Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql)
 
 ## `transport_options`
 
-Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -491,7 +511,7 @@ Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql)
 
 ## `rec_feedback`
 
-Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -509,7 +529,7 @@ Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql)
 
 ## `ranking_weights`
 
-Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -524,7 +544,7 @@ Table-level constraints:
 
 ## `expected_price`
 
-Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -541,7 +561,7 @@ Table-level constraints:
 
 ## `destination_priors`
 
-Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -553,7 +573,7 @@ Source: [`2026-07-13_reco_engine.sql`](../migrations/2026-07-13_reco_engine.sql)
 
 ## `search_batches`
 
-Source: [`2026-07-14_search_store.sql`](../migrations/2026-07-14_search_store.sql). Historical ? dropped by `2026-07-16_drop_tripstate_tables.sql`.
+Source: [`2026-07-14_search_store.sql`](../migrations/2026-07-14_search_store.sql). Historical - dropped by `2026-07-16_drop_tripstate_tables.sql`.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -573,7 +593,7 @@ Source: [`2026-07-14_search_store.sql`](../migrations/2026-07-14_search_store.sq
 
 ## `search_results`
 
-Source: [`2026-07-14_search_store.sql`](../migrations/2026-07-14_search_store.sql). Historical ? dropped by `2026-07-16_drop_tripstate_tables.sql`.
+Source: [`2026-07-14_search_store.sql`](../migrations/2026-07-14_search_store.sql). Historical - dropped by `2026-07-16_drop_tripstate_tables.sql`.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -597,7 +617,7 @@ Source: [`2026-07-14_search_store.sql`](../migrations/2026-07-14_search_store.sq
 
 ## `trip_result_views`
 
-Source: [`2026-07-14_search_store.sql`](../migrations/2026-07-14_search_store.sql). Historical ? dropped by `2026-07-16_drop_tripstate_tables.sql`.
+Source: [`2026-07-14_search_store.sql`](../migrations/2026-07-14_search_store.sql). Historical - dropped by `2026-07-16_drop_tripstate_tables.sql`.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -616,7 +636,7 @@ Table-level constraints:
 
 ## `trip_recommendations`
 
-Source: [`2026-07-14_search_store.sql`](../migrations/2026-07-14_search_store.sql). Historical ? dropped by `2026-07-16_drop_tripstate_tables.sql`.
+Source: [`2026-07-14_search_store.sql`](../migrations/2026-07-14_search_store.sql). Historical - dropped by `2026-07-16_drop_tripstate_tables.sql`.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -636,7 +656,7 @@ Table-level constraints:
 
 ## `trip_memory`
 
-Source: [`2026-07-14_search_store.sql`](../migrations/2026-07-14_search_store.sql). Historical ? dropped by `2026-07-16_drop_tripstate_tables.sql`.
+Source: [`2026-07-14_search_store.sql`](../migrations/2026-07-14_search_store.sql). Historical - dropped by `2026-07-16_drop_tripstate_tables.sql`.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -653,7 +673,7 @@ Table-level constraints:
 
 ## `group_trips`
 
-Source: [`2026-07-16_group_trips.sql`](../migrations/2026-07-16_group_trips.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-07-16_group_trips.sql`](../migrations/2026-07-16_group_trips.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -681,7 +701,7 @@ Source: [`2026-07-16_group_trips.sql`](../migrations/2026-07-16_group_trips.sql)
 
 ## `referral_codes`
 
-Source: [`2026-07-16_referral_credits.sql`](../migrations/2026-07-16_referral_credits.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-07-16_referral_credits.sql`](../migrations/2026-07-16_referral_credits.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -694,7 +714,7 @@ Source: [`2026-07-16_referral_credits.sql`](../migrations/2026-07-16_referral_cr
 
 ## `credit_ledger`
 
-Source: [`2026-07-16_referral_credits.sql`](../migrations/2026-07-16_referral_credits.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-07-16_referral_credits.sql`](../migrations/2026-07-16_referral_credits.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -708,7 +728,7 @@ Source: [`2026-07-16_referral_credits.sql`](../migrations/2026-07-16_referral_cr
 
 ## `trip_snapshots`
 
-Source: [`2026-07-16_trip_snapshots.sql`](../migrations/2026-07-16_trip_snapshots.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-07-16_trip_snapshots.sql`](../migrations/2026-07-16_trip_snapshots.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -723,7 +743,7 @@ Source: [`2026-07-16_trip_snapshots.sql`](../migrations/2026-07-16_trip_snapshot
 
 ## `partner_terms`
 
-Source: [`2026-08-04_partner_deals.sql`](../migrations/2026-08-04_partner_deals.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-04_partner_deals.sql`](../migrations/2026-08-04_partner_deals.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -744,7 +764,7 @@ Table-level constraints:
 
 ## `negotiation_rules`
 
-Source: [`2026-08-23_a_room_has_a_floor_not_just_a_ceiling.sql`](../migrations/2026-08-23_a_room_has_a_floor_not_just_a_ceiling.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_a_room_has_a_floor_not_just_a_ceiling.sql`](../migrations/2026-08-23_a_room_has_a_floor_not_just_a_ceiling.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -778,7 +798,7 @@ Table-level constraints:
 
 ## `meal_options`
 
-Source: [`2026-08-23_breakfast_is_a_fact_not_a_sentence.sql`](../migrations/2026-08-23_breakfast_is_a_fact_not_a_sentence.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_breakfast_is_a_fact_not_a_sentence.sql`](../migrations/2026-08-23_breakfast_is_a_fact_not_a_sentence.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -803,7 +823,7 @@ Table-level constraints:
 
 ## `stay_time_rules`
 
-Source: [`2026-08-23_hotel_decides_what_a_late_checkout_costs.sql`](../migrations/2026-08-23_hotel_decides_what_a_late_checkout_costs.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_hotel_decides_what_a_late_checkout_costs.sql`](../migrations/2026-08-23_hotel_decides_what_a_late_checkout_costs.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -825,7 +845,7 @@ Table-level constraints:
 
 ## `marketing_profiles`
 
-Source: [`2026-08-23_marketing_that_can_be_reused.sql`](../migrations/2026-08-23_marketing_that_can_be_reused.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_marketing_that_can_be_reused.sql`](../migrations/2026-08-23_marketing_that_can_be_reused.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -847,7 +867,7 @@ Source: [`2026-08-23_marketing_that_can_be_reused.sql`](../migrations/2026-08-23
 
 ## `ad_audiences`
 
-Source: [`2026-08-23_marketing_that_can_be_reused.sql`](../migrations/2026-08-23_marketing_that_can_be_reused.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_marketing_that_can_be_reused.sql`](../migrations/2026-08-23_marketing_that_can_be_reused.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -871,7 +891,7 @@ Table-level constraints:
 
 ## `ad_campaigns`
 
-Source: [`2026-08-23_marketing_that_can_be_reused.sql`](../migrations/2026-08-23_marketing_that_can_be_reused.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_marketing_that_can_be_reused.sql`](../migrations/2026-08-23_marketing_that_can_be_reused.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -904,7 +924,7 @@ Table-level constraints:
 
 ## `ad_creatives`
 
-Source: [`2026-08-23_marketing_that_can_be_reused.sql`](../migrations/2026-08-23_marketing_that_can_be_reused.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_marketing_that_can_be_reused.sql`](../migrations/2026-08-23_marketing_that_can_be_reused.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -926,7 +946,7 @@ Source: [`2026-08-23_marketing_that_can_be_reused.sql`](../migrations/2026-08-23
 
 ## `hotel_team_members`
 
-Source: [`2026-08-23_the_hotel_team_is_people_not_logins.sql`](../migrations/2026-08-23_the_hotel_team_is_people_not_logins.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_the_hotel_team_is_people_not_logins.sql`](../migrations/2026-08-23_the_hotel_team_is_people_not_logins.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -950,7 +970,7 @@ Table-level constraints:
 
 ## `team_notification_rules`
 
-Source: [`2026-08-23_the_hotel_team_is_people_not_logins.sql`](../migrations/2026-08-23_the_hotel_team_is_people_not_logins.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_the_hotel_team_is_people_not_logins.sql`](../migrations/2026-08-23_the_hotel_team_is_people_not_logins.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -970,7 +990,7 @@ Table-level constraints:
 
 ## `agent_escalations`
 
-Source: [`2026-08-23_the_hotel_team_is_people_not_logins.sql`](../migrations/2026-08-23_the_hotel_team_is_people_not_logins.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_the_hotel_team_is_people_not_logins.sql`](../migrations/2026-08-23_the_hotel_team_is_people_not_logins.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -999,7 +1019,7 @@ Source: [`2026-08-23_the_hotel_team_is_people_not_logins.sql`](../migrations/202
 
 ## `group_rate_tiers`
 
-Source: [`2026-08-23_three_rooms_is_a_different_price_from_one.sql`](../migrations/2026-08-23_three_rooms_is_a_different_price_from_one.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_three_rooms_is_a_different_price_from_one.sql`](../migrations/2026-08-23_three_rooms_is_a_different_price_from_one.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -1022,7 +1042,7 @@ Table-level constraints:
 
 ## `group_policies`
 
-Source: [`2026-08-23_three_rooms_is_a_different_price_from_one.sql`](../migrations/2026-08-23_three_rooms_is_a_different_price_from_one.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_three_rooms_is_a_different_price_from_one.sql`](../migrations/2026-08-23_three_rooms_is_a_different_price_from_one.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -1040,7 +1060,7 @@ Source: [`2026-08-23_three_rooms_is_a_different_price_from_one.sql`](../migratio
 
 ## `experiences`
 
-Source: [`2026-08-23_what_a_hotel_sells_besides_a_bed.sql`](../migrations/2026-08-23_what_a_hotel_sells_besides_a_bed.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_what_a_hotel_sells_besides_a_bed.sql`](../migrations/2026-08-23_what_a_hotel_sells_besides_a_bed.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -1080,7 +1100,7 @@ Table-level constraints:
 
 ## `hotel_config_audit`
 
-Source: [`2026-08-23_who_changed_the_floor_price.sql`](../migrations/2026-08-23_who_changed_the_floor_price.sql). Declared in the listed DDL; verify it exists in the target project.
+Source: [`2026-08-23_who_changed_the_floor_price.sql`](../migrations/2026-08-23_who_changed_the_floor_price.sql). Declared in this DDL; verify it exists in the target project.
 
 | Column | SQL declaration |
 | --- | --- |
@@ -1103,8 +1123,8 @@ Table-level constraints:
 
 ## Definitions not covered here
 
-This catalog extracts `CREATE TABLE` definitions only. It does not expand
+This catalog extracts `CREATE TABLE` statements only. It does not expand
 columns introduced by `ALTER TABLE`, views, indexes, functions, triggers,
-or policies. Review the migration sources for these. In particular, the
-HostOS project has foundational tables not created by the current checked-in
-base schema; see [Deploying StayOS](../DEPLOYING_STAYOS.md).
+or policies. Review the migration sources for these. HostOS foundational
+tables are not all created by the checked-in base schema; see
+[Deploying StayOS](../DEPLOYING_STAYOS.md).
