@@ -328,6 +328,18 @@ HOTEL_CITY=Jaipur ORIGIN=Mumbai DEST=Goa python scripts/dump_consolidated.py
 
 ## Additional Documentation
 
+- [`product.md`](./product.md) — product scope, intended users, and project status
+- [`Features.md`](./Features.md) — backend capability and API catalogue
+- [`technicals.md`](./technicals.md) — architecture and local development notes
+- [`integration.md`](./integration.md) — external services and configuration
+- [`CLAUDE.md`](./CLAUDE.md) — repository guide for coding agents
+- [`docs/features/index.md`](./docs/features/index.md) — detailed feature guides by product area
+- [`docs/api_surface.md`](./docs/api_surface.md) — route-family reference, including optional HostOS APIs
+- [`docs/database_schema.md`](./docs/database_schema.md) — database entities, relationships, and RLS overview
+- [`docs/database_migrations.md`](./docs/database_migrations.md) — migration index and project cautions
+- [`docs/workers_and_schedules.md`](./docs/workers_and_schedules.md) — Celery tasks, queues, and beat schedules
+- [`docs/security_and_tenancy.md`](./docs/security_and_tenancy.md) — authentication, authorization, and tenant boundaries
+- [`docs/codebase_map.md`](./docs/codebase_map.md) — source packages, tests, and scripts
 - [`readme_run.md`](./readme_run.md) — Quick command cheat sheet for local dev and backfill jobs
 - [`DEPLOYING_STAYOS.md`](./DEPLOYING_STAYOS.md) — Dual-deployment architecture for HostOS / StayOS
 - [`SHUTDOWN.md`](./SHUTDOWN.md) — Notes on retired production infrastructure
