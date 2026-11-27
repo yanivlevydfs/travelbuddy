@@ -18,7 +18,8 @@ background workers.
 For detailed reference material, see the [API surface](./docs/api_surface.md),
 [database schema](./docs/database_schema.md), [workers and schedules](./docs/workers_and_schedules.md),
 [security and tenancy](./docs/security_and_tenancy.md), and
-[codebase map](./docs/codebase_map.md).
+[codebase map](./docs/codebase_map.md). The [database column catalog](./docs/database_columns.md)
+lists checked-in table definitions and distinguishes the effective TripDoc row from its historical DDL.
 
 ## Trip planning and TripDoc
 

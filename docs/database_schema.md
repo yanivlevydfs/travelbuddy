@@ -3,7 +3,9 @@
 This page is a human-readable map of database entities. The executable schema
 is in [schema.sql](../schema.sql) and [migrations/](../migrations/); consult
 those files for exact column types, defaults, indexes, constraints, triggers,
-functions, and policies. This document does not replace the DDL.
+functions, and policies. The [database column catalog](./database_columns.md)
+summarizes checked-in `CREATE TABLE` definitions and the effective TripDoc row.
+Neither document replaces the DDL or a live schema inspection.
 
 ## Database topology
 

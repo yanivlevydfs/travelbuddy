@@ -336,6 +336,7 @@ HOTEL_CITY=Jaipur ORIGIN=Mumbai DEST=Goa python scripts/dump_consolidated.py
 - [`docs/features/index.md`](./docs/features/index.md) — detailed feature guides by product area
 - [`docs/api_surface.md`](./docs/api_surface.md) — route-family reference, including optional HostOS APIs
 - [`docs/database_schema.md`](./docs/database_schema.md) — database entities, relationships, and RLS overview
+- [`docs/database_columns.md`](./docs/database_columns.md) — checked-in table definitions and effective TripDoc columns
 - [`docs/database_migrations.md`](./docs/database_migrations.md) — migration index and project cautions
 - [`docs/workers_and_schedules.md`](./docs/workers_and_schedules.md) — Celery tasks, queues, and beat schedules
 - [`docs/security_and_tenancy.md`](./docs/security_and_tenancy.md) — authentication, authorization, and tenant boundaries
